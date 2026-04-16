@@ -771,7 +771,15 @@
     </style>
 </head>
 <body>
-
+<nav style="background: rgba(10, 10, 10, 0.9); padding: 15px; display: flex; justify-content: flex-end; gap: 15px; border-bottom: 2px solid #00ff41; position: fixed; top: 0; left: 0; right: 0; z-index: 10000; backdrop-filter: blur(5px);">
+    <a href="login.html" style="text-decoration: none;">
+        <button style="background: transparent; color: #00ff41; border: 1px solid #00ff41; padding: 10px 20px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; text-transform: uppercase; transition: 0.3s;">Login</button>
+    </a>
+    <a href="signup.html" style="text-decoration: none;">
+        <button style="background: #00ff41; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; text-transform: uppercase; transition: 0.3s;">Sign Up</button>
+    </a>
+</nav>
+<div style="margin-top: 70px;"></div>
 <canvas id="matrix-canvas"></canvas>
 
 <!-- Header -->
@@ -1778,12 +1786,5 @@
     });
 </script>
 </body>
-    <nav style="background: #0a0a0a; padding: 15px; display: flex; justify-content: flex-end; gap: 15px; border-bottom: 1px solid #00ff41; position: sticky; top: 0; z-index: 9999;">
-    <a href="login.html" style="text-decoration: none;">
-        <button style="background: transparent; color: #00ff41; border: 1px solid #00ff41; padding: 10px 20px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; text-transform: uppercase;">Login</button>
-    </a>
-    <a href="signup.html" style="text-decoration: none;">
-        <button style="background: #00ff41; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; text-transform: uppercase;">Sign Up</button>
-    </a>
 </nav>
 </html>
