@@ -12,8 +12,6 @@
         }
 
         body {
-</div>
-</nav>
         #matrix-canvas {
             position: fixed;
             top: 0;
@@ -489,7 +487,8 @@
             transform: translateY(-2px);
         }
 
-        .yt-card::before {
+   
+       .yt-card::before {
             content: '▶';
             position: absolute;
             top: 15px;
@@ -1779,4 +1778,12 @@
     });
 </script>
 </body>
+    <nav style="background: #0a0a0a; padding: 15px; display: flex; justify-content: flex-end; gap: 15px; border-bottom: 1px solid #00ff41; position: sticky; top: 0; z-index: 9999;">
+    <a href="login.html" style="text-decoration: none;">
+        <button style="background: transparent; color: #00ff41; border: 1px solid #00ff41; padding: 10px 20px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; text-transform: uppercase;">Login</button>
+    </a>
+    <a href="signup.html" style="text-decoration: none;">
+        <button style="background: #00ff41; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-family: 'Courier New', monospace; font-weight: bold; text-transform: uppercase;">Sign Up</button>
+    </a>
+</nav>
 </html>
