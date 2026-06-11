@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Language Learning Path</title>
+    <style>
+        /* ============================================
+           BASE STYLES - matches dark cybersecurity theme
+        ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           NAVIGATION
+        ============================================ */
+        nav {
+            background: #111;
+            border-bottom: 2px solid #00ff41;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            color: #00ff41;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00ff41;
+        }
+
+        .nav-links a.active {
+            color: #00ff41;
+            border-bottom: 1px solid #00ff41;
+        }
+
+        /* ============================================
+           HERO SECTION
+        ============================================ */
+        .hero {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #0a0a0a 0%, #0d1f0d 100%);
+            border-bottom: 1px solid #1a3a1a;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: #00ff4120;
+            border: 1px solid #00ff41;
+            color: #00ff41;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #00ff41;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #888;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: #00ff41;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ============================================
+           MAIN CONTAINER
+        ============================================ */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* ============================================
+           SECTION HEADERS
+        ============================================ */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 50px 0 25px;
+        }
+
+        .section-header .phase-badge {
+            background: #00ff41;
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: #fff;
+        }
+
+        .section-header .phase-weeks {
+            color: #555;
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+
+        /* ============================================
+           CARDS GRID
+        ============================================ */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-radius: 8px;
+            padding: 25px;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .card:hover {
+            border-color: #00ff41;
+            transform: translateY(-3px);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .card p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* ============================================
+           RESOURCES TABLE
+        ============================================ */
+        .resources-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .resources-table th {
+            background: #00ff4115;
+            color: #00ff41;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            border-bottom: 1px solid #00ff4130;
+        }
+
+        .resources-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #1a1a1a;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+
+        .resources-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .resources-table tr:hover td {
+            background: #161616;
+        }
+
+        .resources-table a {
+            color: #00ff41;
+            text-decoration: none;
+        }
+
+        .resources-table a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           CODE BLOCKS
+        ============================================ */
+        .code-section {
+            margin: 25px 0;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-bottom: none;
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .code-header .code-title {
+            color: #00ff41;
+            font-size: 0.85rem;
+        }
+
+        .code-header .code-lang {
+            color: #555;
+            font-size: 0.75rem;
+            background: #0a0a0a;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+
+        .copy-btn {
+            background: transparent;
+            border: 1px solid #333;
+            color: #666;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-family: 'Courier New', monospace;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            border-color: #00ff41;
+            color: #00ff41;
+        }
+
+        .copy-btn.copied {
+            border-color: #00ff41;
+            color: #00ff41;
+        }
+
+        pre {
+            background: #0d0d0d;
+            border: 1px solid #2a2a2a;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            padding: 20px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+
+        code {
+            color: #e0e0e0;
+        }
+
+        /* Syntax highlighting colors */
+        .kw  { color: #569cd6; }   /* keywords */
+        .fn  { color: #dcdcaa; }   /* functions */
+        .str { color: #ce9178; }   /* strings */
+        .cm  { color: #6a9955; }   /* comments */
+        .nm  { color: #b5cea8; }   /* numbers */
+        .tp  { color: #4ec9b0; }   /* types */
+        .pp  { color: #c586c0; }   /* preprocessor */
+
+        /* ============================================
+           CHECKLIST
+        ============================================ */
+        .checklist {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-left: 3px solid #00ff41;
+            border-radius: 0 8px 8px 0;
+            padding: 20px 25px;
+            margin: 20px 0;
+        }
+
+        .checklist h3 {
+            color: #00ff41;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .checklist ul {
+            list-style: none;
+        }
+
+        .checklist li {
+            padding: 5px 0;
+            color: #bbb;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checklist li::before {
+            content: '▸';
+            color: #00ff41;
+            font-size: 0.7rem;
+        }
+
+        /* ============================================
+           TIMELINE
+        ============================================ */
+        .timeline {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #1e3a1e;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding-left: 10px;
+        }
+
+        .timeline-dot {
+            width: 22px;
+            height: 22px;
+            background: #00ff41;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: #000;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-radius: 8px;
+            padding: 15px 20px;
+            flex: 1;
+        }
+
+        .timeline-content h3 {
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .timeline-content p {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        .timeline-content .duration {
+            display: inline-block;
+            background: #00ff4115;
+            color: #00ff41;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            margin-top: 8px;
+        }
+
+        /* ============================================
+           SCHEDULE
+        ============================================ */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .schedule-day {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            transition: border-color 0.3s;
+        }
+
+        .schedule-day:hover {
+            border-color: #00ff41;
+        }
+
+        .day-name {
+            color: #00ff41;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .day-task {
+            color: #888;
+            font-size: 0.78rem;
+            line-height: 1.4;
+        }
+
+        /* ============================================
+           WARNING / TIP BOXES
+        ============================================ */
+        .tip-box {
+            border-radius: 8px;
+            padding: 20px 25px;
+            margin: 20px 0;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+
+        .tip-box.warning {
+            background: #1a1000;
+            border: 1px solid #ff6600;
+        }
+
+        .tip-box.info {
+            background: #001a2a;
+            border: 1px solid #00aaff;
+        }
+
+        .tip-box.success {
+            background: #001a00;
+            border: 1px solid #00ff41;
+        }
+
+        .tip-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .tip-box.warning .tip-text { color: #ffaa44; }
+        .tip-box.info .tip-text    { color: #44aaff; }
+        .tip-box.success .tip-text { color: #00ff41; }
+
+        .tip-text strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .tip-text p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        /* ============================================
+           PROGRESS TRACKER
+        ============================================ */
+        .progress-section {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .progress-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .progress-item {
+            margin-bottom: 15px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        .progress-bar-bg {
+            background: #1a1a1a;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff41, #00cc33);
+            border-radius: 10px;
+            width: 0;
+            transition: width 1.5s ease;
+        }
+
+        /* ============================================
+           PROJECT CARDS
+        ============================================ */
+        .project-card {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .project-card-header {
+            background: #161616;
+            padding: 15px 20px;
+            border-bottom: 1px solid #1e1e1e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .project-card-header h3 {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .difficulty-badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .difficulty-badge.beginner {
+            background: #00ff4120;
+            color: #00ff41;
+            border: 1px solid #00ff41;
+        }
+
+        .difficulty-badge.intermediate {
+            background: #ffaa0020;
+            color: #ffaa00;
+            border: 1px solid #ffaa00;
+        }
+
+        .difficulty-badge.advanced {
+            background: #ff444420;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+        }
+
+        .project-card-body {
+            padding: 20px;
+        }
+
+        /* ============================================
+           BACK TO TOP BUTTON
+        ============================================ */
+        .back-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #00ff41;
+            color: #000;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .back-top.visible {
+            opacity: 1;
+        }
+
+        /* ============================================
+           FOOTER
+        ============================================ */
+        footer {
+            background: #111;
+            border-top: 1px solid #1e1e1e;
+            padding: 30px;
+            text-align: center;
+            color: #444;
+            font-size: 0.85rem;
+            margin-top: 60px;
+        }
+
+        footer a {
+            color: #00ff41;
+            text-decoration: none;
+        }
+
+        /* ============================================
+           RESPONSIVE
+        ============================================ */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { gap: 20px; }
+            .section-header { flex-wrap: wrap; }
+            .section-header .phase-weeks { width: 100%; }
+            nav { flex-direction: column; gap: 10px; }
+            .nav-links a { margin-left: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         NAVIGATION
+    ============================================ -->
+    <nav>
+        <a href="index.html" class="nav-logo">&gt; CyberPath_</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="c-language.html" class="active">C Language</a>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         HERO
+    ============================================ -->
+    <section class="hero">
+        <div class="hero-badge">PROGRAMMING FOUNDATION</div>
+        <h1>Master <span>C Language</span></h1>
+        <p>The foundation of systems programming, operating systems, and low-level security research. Learn C the right way — by building real projects.</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Phases</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">12+</div>
+                <div class="stat-label">Projects</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">20</div>
+                <div class="stat-label">Weeks</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Free</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         MAIN CONTENT
+    ============================================ -->
+    <div class="container">
+
+        <!-- FREE RESOURCES -->
+        <div class="section-header">
+            <span class="phase-badge">START HERE</span>
+            <h2>Free Resources</h2>
+        </div>
+
+        <table class="resources-table">
+            <thead>
+                <tr>
+                    <th>Resource</th>
+                    <th>Best For</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>CS50x by Harvard</td>
+                    <td>Best structured start, beginner friendly</td>
+                    <td><a href="https://cs50.harvard.edu" target="_blank">cs50.harvard.edu ↗</a></td>
+                </tr>
+                <tr>
+                    <td>Beej's Guide to C</td>
+                    <td>Practical, free, covers everything</td>
+                    <td><a href="https://beej.us/guide/bgc" target="_blank">beej.us/guide/bgc ↗</a></td>
+                </tr>
+                <tr>
+                    <td>cppreference.com</td>
+                    <td>Reference while coding</td>
+                    <td><a href="https://cppreference.com" target="_blank">cppreference.com ↗</a></td>
+                </tr>
+                <tr>
+                    <td>Exercism.io</td>
+                    <td>Guided exercises with mentors</td>
+                    <td><a href="https://exercism.io" target="_blank">exercism.io ↗</a></td>
+                </tr>
+                <tr>
+                    <td>Replit.com</td>
+                    <td>Code in browser, zero setup</td>
+                    <td><a href="https://replit.com" target="_blank">replit.com ↗</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- PHASE 1 -->
+        <div class="section-header">
+            <span class="phase-badge">PHASE 1</span>
+            <h2>Foundation</h2>
+            <span class="phase-weeks">Weeks 1-3</span>
+        </div>
+
+        <div class="checklist">
+            <h3>// CONCEPTS TO MASTER</h3>
+            <ul>
+                <li>How C works — compile then run</li>
+                <li>Variables, data types, operators</li>
+                <li>printf and scanf</li>
+                <li>Conditionals — if / else / switch</li>
+                <li>Loops — for / while / do-while</li>
+                <li>Functions and return values</li>
+                <li>Arrays and basic strings</li>
+            </ul>
+        </div>
+
+        <!-- Project 1 -->
+        <div class="project-card">
+            <div class="project-card-header">
+                <h3>📟 Project 1 — Calculator</h3>
+                <span class="difficulty-badge beginner">BEGINNER</span>
+            </div>
+            <div class="project-card-body">
+                <div class="code-section">
+                    <div class="code-header">
+                        <span class="code-title">calculator.c</span>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <span class="code-lang">C</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                    </div>
+<pre><code><span class="pp">#include &lt;stdio.h&gt;</span>
+
+<span class="tp">int</span> <span class="fn">add</span>(<span class="tp">int</span> a, <span class="tp">int</span> b)      { <span class="kw">return</span> a + b; }
+<span class="tp">int</span> <span class="fn">subtract</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) { <span class="kw">return</span> a - b; }
+<span class="tp">int</span> <span class="fn">multiply</span>(<span class="tp">int</span> a, <span class="tp">int</span> b) { <span class="kw">return</span> a * b; }
+
+<span class="tp">float</span> <span class="fn">divide</span>(<span class="tp">float</span> a, <span class="tp">float</span> b) {
+    <span class="kw">if</span> (b == <span class="nm">0</span>) {
+        <span class="fn">printf</span>(<span class="str">"Error: Division by zero\n"</span>);
+        <span class="kw">return</span> <span class="nm">0</span>;
+    }
+    <span class="kw">return</span> a / b;
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">char</span> op;
+    <span class="tp">float</span> a, b;
+
+    <span class="fn">printf</span>(<span class="str">"Enter: num operator num\n"</span>);
+    <span class="fn">scanf</span>(<span class="str">"%f %c %f"</span>, &amp;a, &amp;op, &amp;b);
+
+    <span class="kw">switch</span>(op) {
+        <span class="kw">case</span> <span class="str">'+'</span>: <span class="fn">printf</span>(<span class="str">"%.2f\n"</span>, (<span class="tp">float</span>)<span class="fn">add</span>(a, b));      <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="str">'-'</span>: <span class="fn">printf</span>(<span class="str">"%.2f\n"</span>, (<span class="tp">float</span>)<span class="fn">subtract</span>(a, b)); <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="str">'*'</span>: <span class="fn">printf</span>(<span class="str">"%.2f\n"</span>, (<span class="tp">float</span>)<span class="fn">multiply</span>(a, b)); <span class="kw">break</span>;
+        <span class="kw">case</span> <span class="str">'/'</span>: <span class="fn">printf</span>(<span class="str">"%.2f\n"</span>, <span class="fn">divide</span>(a, b));          <span class="kw">break</span>;
+        <span class="kw">default</span>:  <span class="fn">printf</span>(<span class="str">"Unknown operator\n"</span>);
+    }
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Project 2 -->
+        <div class="project-card">
+            <div class="project-card-header">
+                <h3>🎮 Project 2 — Number Guessing Game</h3>
+                <span class="difficulty-badge beginner">BEGINNER</span>
+            </div>
+            <div class="project-card-body">
+                <div class="code-section">
+                    <div class="code-header">
+                        <span class="code-title">guessing_game.c</span>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <span class="code-lang">C</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                    </div>
+<pre><code><span class="pp">#include &lt;stdio.h&gt;</span>
+<span class="pp">#include &lt;stdlib.h&gt;</span>
+<span class="pp">#include &lt;time.h&gt;</span>
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="fn">srand</span>(<span class="fn">time</span>(<span class="nm">0</span>));
+    <span class="tp">int</span> secret = <span class="fn">rand</span>() % <span class="nm">100</span> + <span class="nm">1</span>;
+    <span class="tp">int</span> guess, attempts = <span class="nm">0</span>;
+
+    <span class="fn">printf</span>(<span class="str">"Guess the number (1-100)\n"</span>);
+
+    <span class="kw">do</span> {
+        <span class="fn">printf</span>(<span class="str">"Your guess: "</span>);
+        <span class="fn">scanf</span>(<span class="str">"%d"</span>, &amp;guess);
+        attempts++;
+
+        <span class="kw">if</span> (guess &lt; secret)      <span class="fn">printf</span>(<span class="str">"Too low!\n"</span>);
+        <span class="kw">else if</span> (guess &gt; secret) <span class="fn">printf</span>(<span class="str">"Too high!\n"</span>);
+        <span class="kw">else</span> <span class="fn">printf</span>(<span class="str">"Correct in %d attempts!\n"</span>, attempts);
+
+    } <span class="kw">while</span> (guess != secret);
+
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 2 -->
+        <div class="section-header">
+            <span class="phase-badge">PHASE 2</span>
+            <h2>Memory & Pointers</h2>
+            <span class="phase-weeks">Weeks 4-6</span>
+        </div>
+
+        <div class="tip-box warning">
+            <span class="tip-icon">⚠️</span>
+            <div class="tip-text">
+                <strong>Do Not Rush This Phase</strong>
+                <p>Pointers are where most people quit. Slow down, draw memory diagrams, run every example manually. This is the heart of C.</p>
+            </div>
+        </div>
+
+        <div class="checklist">
+            <h3>// CONCEPTS TO MASTER</h3>
+            <ul>
+                <li>Memory layout — stack vs heap</li>
+                <li>Pointer basics and declaration</li>
+                <li>Pointer arithmetic</li>
+                <li>Strings as char arrays</li>
+                <li>malloc / realloc / free</li>
+                <li>Multi-dimensional arrays</li>
+                <li>Pass by reference pattern</li>
+            </ul>
+        </div>
+
+        <div class="code-section">
+            <div class="code-header">
+                <span class="code-title">pointers_core_concept.c</span>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <span class="code-lang">C</span>
+                    <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                </div>
+            </div>
+<pre><code><span class="tp">int</span> x = <span class="nm">10</span>;
+<span class="tp">int</span> *ptr = &amp;x;     <span class="cm">// ptr HOLDS the ADDRESS of x</span>
+
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, x);    <span class="cm">// value:    10</span>
+<span class="fn">printf</span>(<span class="str">"%p\n"</span>, &amp;x);   <span class="cm">// address:  0x7fff...</span>
+<span class="fn">printf</span>(<span class="str">"%p\n"</span>, ptr);  <span class="cm">// address:  same as above</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, *ptr); <span class="cm">// deref:    10</span>
+
+*ptr = <span class="nm">99</span>;            <span class="cm">// change x THROUGH the pointer</span>
+<span class="fn">printf</span>(<span class="str">"%d\n"</span>, x);    <span class="cm">// now x = 99</span></code></pre>
+        </div>
+
+        <!-- Project 3 -->
+        <div class="project-card">
+            <div class="project-card-header">
+                <h3>🔤 Project 3 — String Manipulator</h3>
+                <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+            </div>
+            <div class="project-card-body">
+                <div class="code-section">
+                    <div class="code-header">
+                        <span class="code-title">string_manipulator.c</span>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <span class="code-lang">C</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                    </div>
+<pre><code><span class="pp">#include &lt;stdio.h&gt;</span>
+<span class="pp">#include &lt;string.h&gt;</span>
+<span class="pp">#include &lt;ctype.h&gt;</span>
+
+<span class="tp">void</span> <span class="fn">reverse_string</span>(<span class="tp">char</span> *str) {
+    <span class="tp">int</span> len = <span class="fn">strlen</span>(str);
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; i &lt; len / <span class="nm">2</span>; i++) {
+        <span class="tp">char</span> temp = str[i];
+        str[i] = str[len - <span class="nm">1</span> - i];
+        str[len - <span class="nm">1</span> - i] = temp;
+    }
+}
+
+<span class="tp">int</span> <span class="fn">count_vowels</span>(<span class="tp">char</span> *str) {
+    <span class="tp">int</span> count = <span class="nm">0</span>;
+    <span class="kw">for</span> (<span class="tp">int</span> i = <span class="nm">0</span>; str[i] != <span class="str">'\0'</span>; i++) {
+        <span class="tp">char</span> c = <span class="fn">tolower</span>(str[i]);
+        <span class="kw">if</span> (c==<span class="str">'a'</span>||c==<span class="str">'e'</span>||c==<span class="str">'i'</span>||c==<span class="str">'o'</span>||c==<span class="str">'u'</span>) count++;
+    }
+    <span class="kw">return</span> count;
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    <span class="tp">char</span> str[<span class="nm">100</span>];
+    <span class="fn">printf</span>(<span class="str">"Enter a string: "</span>);
+    <span class="fn">fgets</span>(str, <span class="kw">sizeof</span>(str), stdin);
+    str[<span class="fn">strcspn</span>(str, <span class="str">"\n"</span>)] = <span class="nm">0</span>;
+
+    <span class="fn">printf</span>(<span class="str">"Original:  %s\n"</span>, str);
+    <span class="fn">printf</span>(<span class="str">"Vowels:    %d\n"</span>, <span class="fn">count_vowels</span>(str));
+    <span class="fn">reverse_string</span>(str);
+    <span class="fn">printf</span>(<span class="str">"Reversed:  %s\n"</span>, str);
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 3 -->
+        <div class="section-header">
+            <span class="phase-badge">PHASE 3</span>
+            <h2>Data Structures</h2>
+            <span class="phase-weeks">Weeks 7-10</span>
+        </div>
+
+        <div class="checklist">
+            <h3>// CONCEPTS TO MASTER</h3>
+            <ul>
+                <li>Structs and typedef</li>
+                <li>Singly and doubly linked lists</li>
+                <li>Stack — push / pop / peek</li>
+                <li>Queue — enqueue / dequeue</li>
+                <li>Binary search trees</li>
+                <li>Hash tables basics</li>
+                <li>Sorting — bubble, merge, quick</li>
+                <li>Binary search</li>
+            </ul>
+        </div>
+
+        <!-- Project 5 - Linked List -->
+        <div class="project-card">
+            <div class="project-card-header">
+                <h3>🔗 Project 5 — Linked List</h3>
+                <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+            </div>
+            <div class="project-card-body">
+                <div class="code-section">
+                    <div class="code-header">
+                        <span class="code-title">linked_list.c</span>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <span class="code-lang">C</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                    </div>
+<pre><code><span class="pp">#include &lt;stdio.h&gt;</span>
+<span class="pp">#include &lt;stdlib.h&gt;</span>
+
+<span class="kw">typedef struct</span> Node {
+    <span class="tp">int</span> data;
+    <span class="kw">struct</span> Node *next;
+} Node;
+
+Node* <span class="fn">create_node</span>(<span class="tp">int</span> data) {
+    Node *node = <span class="fn">malloc</span>(<span class="kw">sizeof</span>(Node));
+    node->data = data;
+    node->next = <span class="nm">NULL</span>;
+    <span class="kw">return</span> node;
+}
+
+<span class="tp">void</span> <span class="fn">append</span>(Node **head, <span class="tp">int</span> data) {
+    Node *node = <span class="fn">create_node</span>(data);
+    <span class="kw">if</span> (*head == <span class="nm">NULL</span>) { *head = node; <span class="kw">return</span>; }
+    Node *curr = *head;
+    <span class="kw">while</span> (curr->next) curr = curr->next;
+    curr->next = node;
+}
+
+<span class="tp">void</span> <span class="fn">delete_node</span>(Node **head, <span class="tp">int</span> data) {
+    <span class="kw">if</span> (*head == <span class="nm">NULL</span>) <span class="kw">return</span>;
+    <span class="kw">if</span> ((*head)->data == data) {
+        Node *temp = *head;
+        *head = (*head)->next;
+        <span class="fn">free</span>(temp);
+        <span class="kw">return</span>;
+    }
+    Node *curr = *head;
+    <span class="kw">while</span> (curr->next &amp;&amp; curr->next->data != data)
+        curr = curr->next;
+    <span class="kw">if</span> (curr->next) {
+        Node *temp = curr->next;
+        curr->next = temp->next;
+        <span class="fn">free</span>(temp);
+    }
+}
+
+<span class="tp">void</span> <span class="fn">print_list</span>(Node *head) {
+    <span class="kw">while</span> (head) {
+        <span class="fn">printf</span>(<span class="str">"%d -> "</span>, head->data);
+        head = head->next;
+    }
+    <span class="fn">printf</span>(<span class="str">"NULL\n"</span>);
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    Node *head = <span class="nm">NULL</span>;
+    <span class="fn">append</span>(&amp;head, <span class="nm">1</span>);
+    <span class="fn">append</span>(&amp;head, <span class="nm">2</span>);
+    <span class="fn">append</span>(&amp;head, <span class="nm">3</span>);
+    <span class="fn">print_list</span>(head);   <span class="cm">// 1 -> 2 -> 3 -> NULL</span>
+    <span class="fn">delete_node</span>(&amp;head, <span class="nm">2</span>);
+    <span class="fn">print_list</span>(head);   <span class="cm">// 1 -> 3 -> NULL</span>
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 4 -->
+        <div class="section-header">
+            <span class="phase-badge">PHASE 4</span>
+            <h2>Advanced C</h2>
+            <span class="phase-weeks">Weeks 11-14</span>
+        </div>
+
+        <div class="checklist">
+            <h3>// CONCEPTS TO MASTER</h3>
+            <ul>
+                <li>File I/O — fopen / fread / fwrite / fclose</li>
+                <li>Function pointers</li>
+                <li>Header files and multiple source files</li>
+                <li>Makefile basics</li>
+                <li>Bit manipulation</li>
+                <li>Preprocessor macros</li>
+                <li>Error handling patterns</li>
+                <li>Memory debugging with Valgrind</li>
+            </ul>
+        </div>
+
+        <!-- Project 7 - Contact Book -->
+        <div class="project-card">
+            <div class="project-card-header">
+                <h3>📒 Project 7 — Contact Book with File Storage</h3>
+                <span class="difficulty-badge intermediate">INTERMEDIATE</span>
+            </div>
+            <div class="project-card-body">
+                <div class="code-section">
+                    <div class="code-header">
+                        <span class="code-title">contacts.c</span>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <span class="code-lang">C</span>
+                            <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                        </div>
+                    </div>
+<pre><code><span class="pp">#include &lt;stdio.h&gt;</span>
+<span class="pp">#include &lt;string.h&gt;</span>
+<span class="pp">#include &lt;stdlib.h&gt;</span>
+
+<span class="pp">#define MAX_CONTACTS 100</span>
+<span class="pp">#define FILE_NAME "contacts.dat"</span>
+
+<span class="kw">typedef struct</span> {
+    <span class="tp">char</span> name[<span class="nm">50</span>];
+    <span class="tp">char</span> phone[<span class="nm">20</span>];
+    <span class="tp">char</span> email[<span class="nm">50</span>];
+} Contact;
+
+<span class="kw">typedef struct</span> {
+    Contact list[MAX_CONTACTS];
+    <span class="tp">int</span> count;
+} ContactBook;
+
+<span class="tp">void</span> <span class="fn">save_to_file</span>(ContactBook *book) {
+    FILE *f = <span class="fn">fopen</span>(FILE_NAME, <span class="str">"wb"</span>);
+    <span class="kw">if</span> (!f) { <span class="fn">printf</span>(<span class="str">"Error saving\n"</span>); <span class="kw">return</span>; }
+    <span class="fn">fwrite</span>(book, <span class="kw">sizeof</span>(ContactBook), <span class="nm">1</span>, f);
+    <span class="fn">fclose</span>(f);
+    <span class="fn">printf</span>(<span class="str">"Saved successfully!\n"</span>);
+}
+
+<span class="tp">void</span> <span class="fn">add_contact</span>(ContactBook *book) {
+    <span class="kw">if</span> (book->count >= MAX_CONTACTS) {
+        <span class="fn">printf</span>(<span class="str">"Book full\n"</span>); <span class="kw">return</span>;
+    }
+    Contact *c = &amp;book->list[book->count];
+    <span class="fn">printf</span>(<span class="str">"Name:  "</span>); <span class="fn">scanf</span>(<span class="str">" %49[^\n]"</span>, c->name);
+    <span class="fn">printf</span>(<span class="str">"Phone: "</span>); <span class="fn">scanf</span>(<span class="str">" %19[^\n]"</span>, c->phone);
+    <span class="fn">printf</span>(<span class="str">"Email: "</span>); <span class="fn">scanf</span>(<span class="str">" %49[^\n]"</span>, c->email);
+    book->count++;
+    <span class="fn">printf</span>(<span class="str">"Contact added!\n"</span>);
+}
+
+<span class="tp">int</span> <span class="fn">main</span>() {
+    ContactBook book;
+    <span class="tp">int</span> choice;
+    book.count = <span class="nm">0</span>;
+
+    <span class="kw">do</span> {
+        <span class="fn">printf</span>(<span class="str">"\n1.Add 2.Search 3.List 4.Save 0.Exit\n"</span>);
+        <span class="fn">printf</span>(<span class="str">"Choice: "</span>);
+        <span class="fn">scanf</span>(<span class="str">"%d"</span>, &amp;choice);
+        <span class="kw">if</span> (choice == <span class="nm">1</span>) <span class="fn">add_contact</span>(&amp;book);
+        <span class="kw">if</span> (choice == <span class="nm">4</span>) <span class="fn">save_to_file</span>(&amp;book);
+    } <span class="kw">while</span> (choice != <span class="nm">0</span>);
+
+    <span class="kw">return</span> <span class="nm">0</span>;
+}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 5 -->
+        <div class="section-header">
+            <span class="phase-badge">PHASE 5</span>
+            <h2>Capstone Projects</h2>
+            <span class="phase-weeks">Weeks 15-20</span>
+        </div>
+
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon">🐚</div>
+                <h3>Mini Shell</h3>
+                <p>Build your own command interpreter. Learn fork(), exec(), and process management.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🌐</div>
+                <h3>HTTP Server</h3>
+                <p>Basic server that serves HTML files. Learn sockets, TCP, and network programming.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🗄️</div>
+                <h3>Simple Database</h3>
+                <p>Store and query structured data from files. Learn binary file formats.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🧠</div>
+                <h3>Memory Allocator</h3>
+                <p>Implement your own malloc and free. Deep dive into memory management.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💬</div>
+                <h3>Expression Parser</h3>
+                <p>Calculator with variables and functions. Learn parsing and interpreters.</p>
+            </div>
+        </div>
+
+        <!-- COMMON MISTAKES -->
+        <div class="section-header">
+            <span class="phase-badge">AVOID</span>
+            <h2>Common Mistakes</h2>
+        </div>
+
+        <div class="code-section">
+            <div class="code-header">
+                <span class="code-title">mistakes_to_avoid.c</span>
+                <div style="display:flex;gap:8px;align-items:center">
+                    <span class="code-lang">C</span>
+                    <button class="copy-btn" onclick="copyCode(this)">copy</button>
+                </div>
+            </div>
+<pre><code><span class="cm">// ❌ WRONG - using pointer before allocating</span>
+<span class="tp">int</span> *p;
+*p = <span class="nm">10</span>;  <span class="cm">// CRASH - undefined behavior</span>
+
+<span class="cm">// ✅ RIGHT</span>
+<span class="tp">int</span> *p = <span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="tp">int</span>));
+*p = <span class="nm">10</span>;
+<span class="fn">free</span>(p);
+
+<span class="cm">// ❌ WRONG - forgetting null terminator</span>
+<span class="tp">char</span> str[<span class="nm">5</span>] = {<span class="str">'h'</span>,<span class="str">'e'</span>,<span class="str">'l'</span>,<span class="str">'l'</span>,<span class="str">'o'</span>}; <span class="cm">// no \0!</span>
+
+<span class="cm">// ✅ RIGHT</span>
+<span class="tp">char</span> str[] = <span class="str">"hello"</span>; <span class="cm">// auto adds \0</span>
+
+<span class="cm">// ❌ WRONG - memory leak</span>
+<span class="tp">int</span> *arr = <span class="fn">malloc</span>(<span class="nm">100</span> * <span class="kw">sizeof</span>(<span class="tp">int</span>));
+<span class="cm">// ... using arr ... forgot to free!</span>
+
+<span class="cm">// ✅ RIGHT</span>
+<span class="fn">free</span>(arr);
+arr = <span class="nm">NULL</span>; <span class="cm">// prevents dangling pointer</span></code></pre>
+        </div>
+
+        <!-- WEEKLY SCHEDULE -->
+        <div class="section-header">
+            <span class="phase-badge">ROUTINE</span>
+            <h2>Weekly Schedule</h2>
+        </div>
+
+        <div class="schedule-grid">
+            <div class="schedule-day">
+                <div class="day-name">MON</div>
+                <div class="day-task">Learn new concept — 1-2 hrs reading</div>
+            </div>
+            <div class="schedule-day">
+                <div class="day-name">TUE</div>
+                <div class="day-task">Code examples from scratch — no copy-paste</div>
+            </div>
+            <div class="schedule-day">
+                <div class="day-name">WED</div>
+                <div class="day-task">Build the project for current phase</div>
+            </div>
+            <div class="schedule-day">
+                <div class="day-name">THU</div>
+                <div class="day-task">Debug, improve, add features</div>
+            </div>
+            <div class="schedule-day">
+                <div class="day-name">FRI</div>
+                <div class="day-task">Solve 3-5 problems on Exercism or LeetCode</div>
+            </div>
+            <div class="schedule-day">
+                <div class="day-name">SAT</div>
+                <div class="day-task">Review weak spots</div>
+            </div>
+            <div class="schedule-day">
+                <div class="day-name">SUN</div>
+                <div class="day-task">Start next concept early or rest</div>
+            </div>
+        </div>
+
+        <!-- TIMELINE -->
+        <div class="section-header">
+            <span class="phase-badge">TIMELINE</span>
+            <h2>Honest Expectations</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot">1</div>
+                <div class="timeline-content">
+                    <h3>Basics</h3>
+                    <p>Calculator, games, simple tools. You understand syntax and can write small programs.</p>
+                    <span class="duration">~3 Weeks</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">2</div>
+                <div class="timeline-content">
+                    <h3>Intermediate</h3>
+                    <p>Data structures, file I/O programs, pointer manipulation. You can build real tools.</p>
+                    <span class="duration">~3 Months</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">3</div>
+                <div class="timeline-content">
+                    <h3>Advanced</h3>
+                    <p>Servers, parsers, systems programs. You understand how computers actually work.</p>
+                    <span class="duration">~6 Months</span>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot">4</div>
+                <div class="timeline-content">
+                    <h3>Mastery</h3>
+                    <p>OS components, compilers, exploit development. Deep systems knowledge.</p>
+                    <span class="duration">1-2 Years</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- GOLDEN RULE -->
+        <div class="tip-box success">
+            <span class="tip-icon">💡</span>
+            <div class="tip-text">
+                <strong>The Golden Rule</strong>
+                <p>Write code every single day. Even 20 minutes beats 3 hours on weekends. Type everything manually — never copy-paste examples. Break things on purpose to understand them. Start today with CS50 Week 1 and the Calculator project.</p>
+            </div>
+        </div>
+
+    </div><!-- end container -->
+
+    <!-- BACK TO TOP -->
+    <a href="#" class="back-top" id="backTop">↑</a>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>C Language Learning Path — Part of <a href="index.html">CyberPath</a></p>
+        <p style="margin-top:8px">All resources are 100% free. Build every day.</p>
+    </footer>
+
+    <!-- ============================================
+         JAVASCRIPT
+    ============================================ -->
+    <script>
+        // Copy button functionality
+        function copyCode(btn) {
+            const pre = btn.closest('.code-section').querySelector('pre');
+            const text = pre.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                btn.textContent = 'copied!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        // Back to top button
+        const backTop = document.getElementById('backTop');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                backTop.classList.add('visible');
+            } else {
+                backTop.classList.remove('visible');
+            }
+        });
+
+        // Animate progress bars on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fill = entry.target.querySelector('.progress-bar-fill');
+                    if (fill) {
+                        fill.style.width = fill.dataset.width;
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.progress-item').forEach(item => {
+            observer.observe(item);
+        });
+    </script>
+
+</body>
+</html>
