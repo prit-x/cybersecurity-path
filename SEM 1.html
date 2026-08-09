@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cybersecurity Zero-To-Hero Roadmap</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-primary:    #0a0e1a;
+      --bg-secondary:  #0f1628;
+      --bg-card:       #131d35;
+      --bg-card-hover: #172040;
+      --accent-cyan:   #00d4ff;
+      --accent-green:  #00ff88;
+      --accent-purple: #9b59ff;
+      --accent-orange: #ff6b35;
+      --accent-yellow: #ffd700;
+      --accent-red:    #ff4757;
+      --text-primary:  #e8eaf6;
+      --text-secondary:#8892b0;
+      --border:        rgba(0, 212, 255, 0.15);
+      --glow-cyan:     0 0 20px rgba(0, 212, 255, 0.3);
+      --glow-green:    0 0 20px rgba(0, 255, 136, 0.3);
+      --glow-purple:   0 0 20px rgba(155, 89, 255, 0.3);
+      --radius:        12px;
+      --font-main:     'Segoe UI', system-ui, -apple-system, sans-serif;
+      --font-mono:     'Cascadia Code', 'Fira Code', 'Courier New', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Animated Background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,212,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(155,89,255,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 30% at 50% 50%, rgba(0,255,136,0.03) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 3px; }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── HERO HEADER ── */
+    .hero {
+      text-align: center;
+      padding: 70px 20px 50px;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(155,89,255,0.15));
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 50px;
+      padding: 6px 20px;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent-cyan);
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-green) 50%, var(--accent-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      font-family: var(--font-mono);
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .meta-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .meta-chip span { color: var(--accent-cyan); font-weight: 600; }
+
+    /* ── Section Headers ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .section-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .icon-cyan  { background: rgba(0,212,255,0.12); border: 1px solid rgba(0,212,255,0.25); }
+    .icon-green { background: rgba(0,255,136,0.12); border: 1px solid rgba(0,255,136,0.25); }
+    .icon-purple{ background: rgba(155,89,255,0.12);border: 1px solid rgba(155,89,255,0.25);}
+    .icon-orange{ background: rgba(255,107,53,0.12);border: 1px solid rgba(255,107,53,0.25);}
+
+    .section-title { font-size: 1.5rem; font-weight: 700; }
+    .section-desc  { font-size: 0.85rem; color: var(--text-secondary); margin-top: 2px; }
+
+    /* ── Section Wrapper ── */
+    section { padding: 60px 0; }
+    section + section { border-top: 1px solid var(--border); }
+
+    /* ─────────────────────────────────────────
+       PART 1 – SKILL TREE
+    ───────────────────────────────────────── */
+    .skill-tree {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .tree-phase {
+      padding: 28px 32px;
+      position: relative;
+    }
+
+    .tree-phase + .tree-phase {
+      border-top: 1px solid var(--border);
+    }
+
+    .phase-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .phase-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+    }
+
+    .phase-1 .phase-num { background: rgba(0,212,255,0.2);  color: var(--accent-cyan);   border: 1px solid rgba(0,212,255,0.4);  }
+    .phase-2 .phase-num { background: rgba(0,255,136,0.2);  color: var(--accent-green);  border: 1px solid rgba(0,255,136,0.4);  }
+    .phase-3 .phase-num { background: rgba(255,215,0,0.2);  color: var(--accent-yellow); border: 1px solid rgba(255,215,0,0.4);  }
+    .phase-4 .phase-num { background: rgba(155,89,255,0.2); color: var(--accent-purple); border: 1px solid rgba(155,89,255,0.4); }
+
+    .phase-title { font-size: 1rem; font-weight: 700; }
+    .phase-subtitle { font-size: 0.78rem; color: var(--text-secondary); font-style: italic; }
+
+    .phase-nodes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-left: 44px;
+    }
+
+    .node {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.83rem;
+      font-family: var(--font-mono);
+      border: 1px solid;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: default;
+    }
+
+    .node:hover { transform: translateY(-2px); }
+
+    .node-cyan   { background: rgba(0,212,255,0.08);  border-color: rgba(0,212,255,0.25);  color: var(--accent-cyan);   }
+    .node-green  { background: rgba(0,255,136,0.08);  border-color: rgba(0,255,136,0.25);  color: var(--accent-green);  }
+    .node-yellow { background: rgba(255,215,0,0.08);  border-color: rgba(255,215,0,0.25);  color: var(--accent-yellow); }
+    .node-purple { background: rgba(155,89,255,0.08); border-color: rgba(155,89,255,0.25); color: var(--accent-purple); }
+
+    .node-cyan:hover   { box-shadow: var(--glow-cyan);   }
+    .node-green:hover  { box-shadow: var(--glow-green);  }
+    .node-yellow:hover { box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+    .node-purple:hover { box-shadow: var(--glow-purple); }
+
+    /* ── Tree Arrow ── */
+    .tree-arrow {
+      display: flex;
+      justify-content: center;
+      padding: 6px 0;
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+    }
+
+    /* ─────────────────────────────────────────
+       PART 2 – SKILL CARDS
+    ───────────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,212,255,0.35);
+      box-shadow: var(--glow-cyan);
+    }
+
+    .card-top {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .card-icon {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .card-heading { flex: 1; }
+
+    .skill-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent-cyan);
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .card-heading h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .card-tagline {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,215,0,0.1);
+      border: 1px solid rgba(255,215,0,0.25);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.75rem;
+      color: var(--accent-yellow);
+      font-family: var(--font-mono);
+      white-space: nowrap;
+    }
+
+    .card-body { padding: 20px 24px; }
+
+    .info-block { margin-bottom: 16px; }
+    .info-block:last-child { margin-bottom: 0; }
+
+    .info-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-cyan);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .info-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(0,212,255,0.3), transparent);
+    }
+
+    ul.learn-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    ul.learn-list li {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 3px 10px;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    .resource-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px;
+      margin-bottom: 6px;
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .resource-link:hover {
+      background: rgba(0,212,255,0.08);
+      border-color: rgba(0,212,255,0.25);
+      color: var(--accent-cyan);
+    }
+
+    .resource-link .r-platform {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.83rem;
+    }
+
+    .resource-link:hover .r-platform { color: var(--accent-cyan); }
+
+    .pro-tip {
+      background: linear-gradient(135deg, rgba(255,215,0,0.06), rgba(255,107,53,0.06));
+      border: 1px solid rgba(255,215,0,0.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: #c8a600;
+      line-height: 1.5;
+    }
+
+    .pro-tip strong { color: var(--accent-yellow); }
+
+    .next-step {
+      background: linear-gradient(135deg, rgba(0,255,136,0.06), rgba(0,212,255,0.06));
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: #00c869;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .next-step .arrow { font-size: 1rem; margin-top: 1px; flex-shrink: 0; }
+
+    /* Vulnerability tags */
+    .vuln-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    .vtag {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .vtag-red    { background: rgba(255,71,87,0.12);  border: 1px solid rgba(255,71,87,0.3);  color: var(--accent-red);    }
+    .vtag-orange { background: rgba(255,107,53,0.12); border: 1px solid rgba(255,107,53,0.3); color: var(--accent-orange); }
+    .vtag-yellow { background: rgba(255,215,0,0.12);  border: 1px solid rgba(255,215,0,0.3);  color: var(--accent-yellow); }
+    .vtag-cyan   { background: rgba(0,212,255,0.12);  border: 1px solid rgba(0,212,255,0.3);  color: var(--accent-cyan);   }
+    .vtag-purple { background: rgba(155,89,255,0.12); border: 1px solid rgba(155,89,255,0.3); color: var(--accent-purple); }
+
+    /* ─────────────────────────────────────────
+       PART 3 – ACHIEVEMENT PATHS
+    ───────────────────────────────────────── */
+    .paths-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 24px;
+    }
+
+    .path-card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.25s;
+    }
+
+    .path-card:hover { transform: translateY(-5px); }
+
+    .path-card-inner {
+      padding: 28px;
+      height: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+
+    .path-a .path-card-inner:hover { border-color: rgba(0,212,255,0.4);  box-shadow: var(--glow-cyan);   }
+    .path-b .path-card-inner:hover { border-color: rgba(0,255,136,0.4);  box-shadow: var(--glow-green);  }
+    .path-c .path-card-inner:hover { border-color: rgba(155,89,255,0.4); box-shadow: var(--glow-purple); }
+
+    .path-letter {
+      font-size: 2.5rem;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .path-a .path-letter { color: var(--accent-cyan);   }
+    .path-b .path-letter { color: var(--accent-green);  }
+    .path-c .path-letter { color: var(--accent-purple); }
+
+    .path-type {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .path-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .path-goal {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .path-goal strong {
+      color: var(--text-primary);
+    }
+
+    .path-actions { margin-bottom: 18px; }
+
+    .action-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+
+    .action-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .path-a .action-dot { background: var(--accent-cyan);   }
+    .path-b .action-dot { background: var(--accent-green);  }
+    .path-c .action-dot { background: var(--accent-purple); }
+
+    .action-item p { font-size: 0.84rem; color: var(--text-secondary); line-height: 1.6; }
+    .action-item p strong { color: var(--text-primary); }
+
+    .proof-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .path-a .proof-badge { background: rgba(0,212,255,0.08);  border: 1px solid rgba(0,212,255,0.2);  color: var(--accent-cyan);   }
+    .path-b .proof-badge { background: rgba(0,255,136,0.08);  border: 1px solid rgba(0,255,136,0.2);  color: var(--accent-green);  }
+    .path-c .proof-badge { background: rgba(155,89,255,0.08); border: 1px solid rgba(155,89,255,0.2); color: var(--accent-purple); }
+
+    /* ─────────────────────────────────────────
+       PART 4 – GOLDEN RULES
+    ───────────────────────────────────────── */
+    .rules-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+    }
+
+    .rule-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 20px;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+
+    .rule-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0,212,255,0.3);
+    }
+
+    .rule-num {
+      font-size: 2rem;
+      font-weight: 900;
+      font-family: var(--font-mono);
+      line-height: 1;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .rule-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--accent-cyan);
+    }
+
+    .rule-desc {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Legal Warning ── */
+    .legal-banner {
+      background: linear-gradient(135deg, rgba(255,71,87,0.08), rgba(255,107,53,0.05));
+      border: 1px solid rgba(255,71,87,0.25);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .legal-icon { font-size: 2rem; flex-shrink: 0; }
+
+    .legal-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent-red);
+      margin-bottom: 8px;
+    }
+
+    .legal-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .legal-text strong { color: var(--text-primary); }
+
+    .legal-platforms {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .legal-platform {
+      background: rgba(0,255,136,0.08);
+      border: 1px solid rgba(0,255,136,0.2);
+      border-radius: 6px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      color: var(--accent-green);
+      font-family: var(--font-mono);
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 50px 20px 40px;
+      border-top: 1px solid var(--border);
+      position: relative;
+      z-index: 1;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .footer-sub {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+    }
+
+    /* ── Utility ── */
+    .mb-8  { margin-bottom: 8px;  }
+    .mb-16 { margin-bottom: 16px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      .card-top { flex-direction: column; gap: 10px; }
+      .time-badge { align-self: flex-start; }
+      .legal-banner { flex-direction: column; }
+      .tree-phase { padding: 20px; }
+      .phase-nodes { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
+  <header class="hero container">
+    <div class="hero-badge">🛡️ Cybersecurity Roadmap 2024</div>
+    <h1>Zero-To-Hero<br>Cybersecurity Path</h1>
+    <p class="hero-sub">// Real Achievement Before Year-End · BTech CSE Edition</p>
+    <div class="hero-meta">
+      <div class="meta-chip">🎯 Focus: <span>Web Security</span></div>
+      <div class="meta-chip">📅 Timeline: <span>Year-End Goal</span></div>
+      <div class="meta-chip">🚀 Level: <span>Absolute Beginner</span></div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ════════════════════════════════════════
+         PART 1 – SKILL TREE
+    ════════════════════════════════════════ -->
+    <section id="skill-tree">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-icon icon-cyan">🗺️</div>
+          <div>
+            <div class="section-title">Part 1: The Cybersecurity Skill Tree</div>
+            <div class="section-desc">How skills connect and what leads to what</div>
+          </div>
+        </div>
+
+        <div class="skill-tree">
+
+          <!-- Phase 1 -->
+          <div class="tree-phase phase-1">
+            <div class="phase-header">
+              <div class="phase-num">P1</div>
+              <div>
+                <div class="phase-title">Phase 1: The Absolute Foundation</div>
+                <div class="phase-subtitle">Cannot be skipped. The roots of your tree.</div>
+              </div>
+            </div>
+            <div class="phase-nodes">
+              <div class="node node-cyan">🐧 Linux Basics (CLI, Permissions)</div>
+              <div class="node node-cyan">🌐 Networking (TCP/IP, Ports, DNS)</div>
+              <div class="node node-cyan">🖥️ Web Fundamentals (HTTP, Cookies, Sessions)</div>
+            </div>
+          </div>
+
+          <div class="tree-arrow">↓</div>
+
+          <!-- Phase 2 -->
+          <div class="tree-phase phase-2">
+            <div class="phase-header">
+              <div class="phase-num">P2</div>
+              <div>
+                <div class="phase-title">Phase 2: First Specialization — Web Security</div>
+                <div class="phase-subtitle">The trunk of your tree. Fastest way to get results.</div>
+              </div>
+            </div>
+            <div class="phase-nodes">
+              <div class="node node-green">🕷️ Tool Mastery (Burp Suite, Nmap)</div>
+              <div class="node node-green">💥 Vulnerabilities (OWASP Top 10 — SQLi, XSS, IDOR)</div>
+            </div>
+          </div>
+
+          <div class="tree-arrow">↓</div>
+
+          <!-- Phase 3 -->
+          <div class="tree-phase phase-3">
+            <div class="phase-header">
+              <div class="phase-num">P3</div>
+              <div>
+                <div class="phase-title">Phase 3: Practical Achievement (End-of-Year Goal)</div>
+                <div class="phase-subtitle">The branches. Pick one to prove your skills.</div>
+              </div>
+            </div>
+            <div class="phase-nodes">
+              <div class="node node-yellow">🚩 Path A: CTF (PicoCTF, TryHackMe)</div>
+              <div class="node node-yellow">💰 Path B: Bug Bounty (HackerOne, Bugcrowd)</div>
+              <div class="node node-yellow">🎓 Path C: Certification (eJPT or Security+)</div>
+            </div>
+          </div>
+
+          <div class="tree-arrow">↓</div>
+
+          <!-- Phase 4 -->
+          <div class="tree-phase phase-4">
+            <div class="phase-header">
+              <div class="phase-num">P4</div>
+              <div>
+                <div class="phase-title">Phase 4: Expansion — Mastering Multiple Skills</div>
+                <div class="phase-subtitle">Once Web Security is mastered, expand here next year.</div>
+              </div>
+            </div>
+            <div class="phase-nodes">
+              <div class="node node-purple">🖧 Network Pen Testing (Active Directory, Wi-Fi)</div>
+              <div class="node node-purple">📱 Mobile App Security (Android / iOS)</div>
+              <div class="node node-purple">☁️ Cloud Security (AWS / Azure)</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         PART 2 – MODULE BREAKDOWN
+    ════════════════════════════════════════ -->
+    <section id="modules">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-icon icon-green">📖</div>
+          <div>
+            <div class="section-title">Part 2: Detailed Module Breakdown</div>
+            <div class="section-desc">Everything you need to learn, where to learn it, and exactly how long it takes</div>
+          </div>
+        </div>
+
+        <div class="skills-grid">
+
+          <!-- ── SKILL 1: Linux ── -->
+          <div class="skill-card">
+            <div class="card-top">
+              <div class="card-icon">🐧</div>
+              <div class="card-heading">
+                <div class="skill-num">SKILL 01 · PHASE 1</div>
+                <h3>Linux Fundamentals</h3>
+                <div class="card-tagline">The OS used by 99% of hackers and servers</div>
+              </div>
+              <div class="time-badge">⏱ 2 Weeks</div>
+            </div>
+            <div class="card-body">
+
+              <div class="info-block">
+                <div class="info-label">What to Learn</div>
+                <ul class="learn-list">
+                  <li>Navigation (cd, ls)</li>
+                  <li>File Manipulation (cat, grep)</li>
+                  <li>User Permissions (chmod)</li>
+                  <li>Package Management</li>
+                  <li>Basic Bash Scripting</li>
+                </ul>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Where to Learn</div>
+                <a class="resource-link" href="https://tryhackme.com" target="_blank" rel="noopener">
+                  <span>🎯</span>
+                  <div><span class="r-platform">TryHackMe</span> — Linux Fundamentals Part 1, 2 &amp; 3 (Free)</div>
+                </a>
+                <a class="resource-link" href="https://overthewire.org/wargames/bandit/" target="_blank" rel="noopener">
+                  <span>🎮</span>
+                  <div><span class="r-platform">OverTheWire: Bandit</span> — Learn Linux by playing a game</div>
+                </a>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Specific Focus</div>
+                <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.6;">
+                  Master the <strong style="color:var(--accent-cyan)">Terminal</strong>. Do not use the graphical interface (mouse).
+                  Learn how to use the <code style="background:rgba(0,212,255,0.1);padding:1px 6px;border-radius:4px;font-family:var(--font-mono);color:var(--accent-cyan)">grep</code> command to search for text.
+                </p>
+              </div>
+
+              <div class="info-block">
+                <div class="pro-tip">
+                  <strong>💡 Pro-Tip:</strong> Don't try to memorize every command. Instead, learn how to use the
+                  <code style="background:rgba(255,215,0,0.15);padding:1px 6px;border-radius:4px;font-family:var(--font-mono);">man</code>
+                  command (manual) or Google to find what you need.
+                </div>
+              </div>
+
+              <div class="next-step">
+                <span class="arrow">➡️</span>
+                <span>Install <strong>Kali Linux</strong> on a Virtual Machine (VirtualBox) and start using it for daily tasks. Then move to Networking.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── SKILL 2: Networking ── -->
+          <div class="skill-card">
+            <div class="card-top">
+              <div class="card-icon">🌐</div>
+              <div class="card-heading">
+                <div class="skill-num">SKILL 02 · PHASE 1</div>
+                <h3>Networking Foundation</h3>
+                <div class="card-tagline">How computers talk to each other</div>
+              </div>
+              <div class="time-badge">⏱ 3 Weeks</div>
+            </div>
+            <div class="card-body">
+
+              <div class="info-block">
+                <div class="info-label">What to Learn</div>
+                <ul class="learn-list">
+                  <li>OSI Model</li>
+                  <li>TCP vs UDP</li>
+                  <li>IP Addressing (IPv4/IPv6)</li>
+                  <li>Subnetting</li>
+                  <li>MAC Addresses</li>
+                  <li>Common Ports (80, 443, 22, 21)</li>
+                  <li>DNS &amp; DHCP</li>
+                </ul>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Where to Learn</div>
+                <a class="resource-link" href="https://tryhackme.com" target="_blank" rel="noopener">
+                  <span>🎯</span>
+                  <div><span class="r-platform">TryHackMe</span> — Pre-Security Path → Network Fundamentals</div>
+                </a>
+                <a class="resource-link" href="https://www.youtube.com/c/NetworkChuck" target="_blank" rel="noopener">
+                  <span>📺</span>
+                  <div><span class="r-platform">YouTube: NetworkChuck</span> — Free CCNA playlist (First 10 videos)</div>
+                </a>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Specific Focus</div>
+                <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.6;">
+                  Deeply understand <strong style="color:var(--accent-cyan)">Ports</strong> and <strong style="color:var(--accent-cyan)">Protocols</strong>.
+                  Understand exactly what happens when you type <code style="background:rgba(0,212,255,0.1);padding:1px 6px;border-radius:4px;font-family:var(--font-mono);color:var(--accent-cyan)">google.com</code> and press enter.
+                </p>
+              </div>
+
+              <div class="info-block">
+                <div class="pro-tip">
+                  <strong>💡 Pro-Tip:</strong> Download <strong>Wireshark</strong> on your normal computer and just watch the packets flying around. It makes the invisible network visible.
+                </div>
+              </div>
+
+              <div class="next-step">
+                <span class="arrow">➡️</span>
+                <span>Connect your Linux &amp; Networking knowledge by learning how to scan networks using <strong>Nmap</strong>.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── SKILL 3: Web Basics ── -->
+          <div class="skill-card">
+            <div class="card-top">
+              <div class="card-icon">🖥️</div>
+              <div class="card-heading">
+                <div class="skill-num">SKILL 03 · PHASE 1</div>
+                <h3>Web &amp; Internet Basics</h3>
+                <div class="card-tagline">Before hacking a website, know how it's built</div>
+              </div>
+              <div class="time-badge">⏱ 2 Weeks</div>
+            </div>
+            <div class="card-body">
+
+              <div class="info-block">
+                <div class="info-label">What to Learn</div>
+                <ul class="learn-list">
+                  <li>HTTP Requests (GET, POST)</li>
+                  <li>HTTP Responses (200, 404)</li>
+                  <li>Cookies &amp; Sessions</li>
+                  <li>JSON</li>
+                  <li>Basic HTML / JavaScript</li>
+                </ul>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Where to Learn</div>
+                <a class="resource-link" href="https://tryhackme.com" target="_blank" rel="noopener">
+                  <span>🎯</span>
+                  <div><span class="r-platform">TryHackMe</span> — Pre-Security Path → How The Web Works</div>
+                </a>
+                <a class="resource-link" href="https://developer.mozilla.org/en-US/docs/Web/HTTP" target="_blank" rel="noopener">
+                  <span>📄</span>
+                  <div><span class="r-platform">MDN Web Docs</span> — HTTP Basics</div>
+                </a>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Specific Focus</div>
+                <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.6;">
+                  Focus heavily on <strong style="color:var(--accent-cyan)">HTTP Headers</strong> and <strong style="color:var(--accent-cyan)">Cookies</strong>.
+                  This is where most web vulnerabilities hide.
+                </p>
+              </div>
+
+              <div class="info-block">
+                <div class="pro-tip">
+                  <strong>💡 Pro-Tip:</strong> Right-click any website → "Inspect Element" → "Network" tab → Refresh. Look at all the requests your browser is making!
+                </div>
+              </div>
+
+              <div class="next-step">
+                <span class="arrow">➡️</span>
+                <span>Set up <strong>Burp Suite</strong> (the ultimate web hacking tool) to intercept web traffic.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── SKILL 4: Burp Suite ── -->
+          <div class="skill-card">
+            <div class="card-top">
+              <div class="card-icon">🕷️</div>
+              <div class="card-heading">
+                <div class="skill-num">SKILL 04 · PHASE 2</div>
+                <h3>Tool Mastery — Burp Suite</h3>
+                <div class="card-tagline">The sniper rifle of a web hacker</div>
+              </div>
+              <div class="time-badge">⏱ 1–2 Weeks</div>
+            </div>
+            <div class="card-body">
+
+              <div class="info-block">
+                <div class="info-label">What to Learn</div>
+                <ul class="learn-list">
+                  <li>Proxy Interception</li>
+                  <li>Repeater</li>
+                  <li>Intruder</li>
+                  <li>Decoder</li>
+                </ul>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Where to Learn</div>
+                <a class="resource-link" href="https://portswigger.net/web-security" target="_blank" rel="noopener">
+                  <span>🌐</span>
+                  <div><span class="r-platform">PortSwigger Web Academy</span> — Burp Suite Basics (by the creators)</div>
+                </a>
+                <a class="resource-link" href="https://tryhackme.com" target="_blank" rel="noopener">
+                  <span>🎯</span>
+                  <div><span class="r-platform">TryHackMe</span> — Burp Suite Module</div>
+                </a>
+              </div>
+
+              <div class="info-block">
+                <div class="info-label">Specific Focus</div>
+                <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.6;">
+                  Master the <strong style="color:var(--accent-cyan)">Repeater</strong> tab. Capture a request, change variables
+                  (e.g. <code style="background:rgba(0,212,255,0.1);padding:1px 6px;border-radius:4px;font-family:var(--font-mono);color:var(--accent-cyan)">id=1</code> →
+                  <code style="background:rgba(0,212,255,0.1);padding:1px 6px;border-radius:4px;font-family:var(--font-mono);color:var(--accent-cyan)">id=2</code>), and send it again.
+                </p>
+              </div>
+
+              <div class="info-block">
+                <div class="pro-tip">
+                  <strong>💡 Pro-Tip:</strong> Configure Firefox with the <strong>FoxyProxy</strong> extension to easily switch your traffic into Burp Suite.
+                </div>
+              </div>
+
+              <div class="next-step">
+                <span class="arrow">➡️</span>
+                <span>You have the foundation and the tools. Time to learn actual <strong>vulnerabilities</strong>.</span>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ── SKILL 5: OWASP Top 10 ── -->
+          <div class="skill-card" style="grid-column: 1 / -1;">
+            <div class="card-top">
+              <div class="card-icon">💥</div>
+              <div class="card-heading">
+                <div class="skill-num">SKILL 05 · PHASE 2 — THE BIG ONE</div>
+                <h3>Web Vulnerabilities (OWASP Top 10)</h3>
+                <div class="card-tagline">The actual hacking phase — Take your time here</div>
+              </div>
+              <div class="time-badge">⏱ 8–10 Weeks</div>
+            </div>
+            <div class="card-body">
+
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;">
+
+                <div>
+                  <div class="info-block">
+                    <div class="info-label">Vulnerabilities to Master</div>
+                    <div class="vuln-tags">
+                      <span class="vtag vtag-red">SQL Injection (SQLi)</span>
+                      <span class="vtag vtag-orange">Cross-Site Scripting (XSS)</span>
+                      <span class="vtag vtag-yellow">IDOR</span>
+                      <span class="vtag vtag-cyan">Command Injection</span>
+                      <span class="vtag vtag-purple">Broken Authentication</span>
+                    </div>
+                  </div>
+
+                  <div class="info-block">
+                    <div class="info-label">Specific Focus</div>
+                    <p style="font-size:0.83rem;color:var(--text-secondary);line-height:1.6;">
+                      Focus first on <strong style="color:var(--accent-orange)">IDOR</strong> and <strong style="color:var(--accent-orange)">XSS</strong>.
+                      They are the most common and easiest to find for beginners.
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <div class="info-block">
+                    <div class="info-label">Where to Learn</div>
+                    <a class="resource-link" href="https://portswigger.net/web-security" target="_blank" rel="noopener">
+                      <span>⭐</span>
+                      <div><span class="r-platform">PortSwigger Web Academy</span> — The absolute BEST free resource on the internet</div>
+                    </a>
+                    <a class="resource-link" href="https://www.youtube.com/@RanaKhalil101" target="_blank" rel="noopener">
+                      <span>📺</span>
+                      <div><span class="r-platform">YouTube: Rana Khalil</span> — Walkthroughs of PortSwigger labs</div>
+                    </a>
+                  </div>
+
+                  <div class="info-block">
+                    <div class="pro-tip">
+                      <strong>💡 Pro-Tip:</strong> NEVER use automated scanners (like Acunetix or Nessus) right now.
+                      Learn to find bugs <strong>manually</strong>. Automated tools make you lazy; manual hacking makes you a master.
+                    </div>
+                  </div>
+
+                  <div class="next-step">
+                    <span class="arrow">🏆</span>
+                    <span>You are now ready to achieve your <strong>End-of-Year Goal</strong>!</span>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         PART 3 – ACHIEVEMENT PATHS
+    ════════════════════════════════════════ -->
+    <section id="achievement">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-icon icon-yellow">🏆</div>
+          <div>
+            <div class="section-title">Part 3: Your End-of-Year Achievement Plan</div>
+            <div class="section-desc">Choose ONE path based on the time you have left in the year</div>
+          </div>
+        </div>
+
+        <div class="paths-grid">
+
+          <!-- Path A -->
+          <div class="path-card path-a">
+            <div class="path-card-inner">
+              <div class="path-letter">A</div>
+              <div class="path-type">Option A · Hacker Resume Builder</div>
+              <h3>Capture The Flag (CTF)</h3>
+              <div class="path-goal">
+                <strong>The Goal:</strong> Rank in the top 20% on a major CTF platform and prove your skills in a competitive environment.
+              </div>
+              <div class="path-actions">
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Create an account on <strong>PicoCTF.org</strong></p>
+                </div>
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Solve the <strong>Web Exploitation</strong> and <strong>General Skills</strong> categories</p>
+                </div>
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Also practice on <strong>TryHackMe</strong> and <strong>HackTheBox</strong></p>
+                </div>
+              </div>
+              <div class="proof-badge">
+                📄 Proof: PicoCTF profile link on your LinkedIn &amp; resume
+              </div>
+            </div>
+          </div>
+
+          <!-- Path B -->
+          <div class="path-card path-b">
+            <div class="path-card-inner">
+              <div class="path-letter">B</div>
+              <div class="path-type">Option B · Real World Impact</div>
+              <h3>Bug Bounty Hunter</h3>
+              <div class="path-goal">
+                <strong>The Goal:</strong> Find a valid vulnerability on a real company and get a "Hall of Fame" mention — no experience needed.
+              </div>
+              <div class="path-actions">
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Sign up for <strong>HackerOne</strong> or <strong>Bugcrowd</strong></p>
+                </div>
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Look for <strong>VDPs</strong> (Vulnerability Disclosure Programs) — no money, but points &amp; recognition</p>
+                </div>
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Pro hackers ignore VDPs (no cash) → leaving easy bugs for <strong>beginners like you</strong></p>
+                </div>
+              </div>
+              <div class="proof-badge">
+                🏅 Proof: HackerOne Reputation points / Hall of Fame emails
+              </div>
+            </div>
+          </div>
+
+          <!-- Path C -->
+          <div class="path-card path-c">
+            <div class="path-card-inner">
+              <div class="path-letter">C</div>
+              <div class="path-type">Option C · Professional Credentials</div>
+              <h3>Certification (eJPT)</h3>
+              <div class="path-goal">
+                <strong>The Goal:</strong> Pass the <strong>eJPT</strong> (eLearnSecurity Junior Penetration Tester) — a respected, practical certification.
+              </div>
+              <div class="path-actions">
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Enroll in the <strong>free PTS course</strong> by INE (Penetration Testing Student)</p>
+                </div>
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Study all the material thoroughly — labs included</p>
+                </div>
+                <div class="action-item">
+                  <div class="action-dot"></div>
+                  <p>Pay ~<strong>$200</strong> for the exam voucher when ready</p>
+                </div>
+              </div>
+              <div class="proof-badge">
+                🎓 Proof: A highly respected practical certification on your resume
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ════════════════════════════════════════
+         PART 4 – GOLDEN RULES
+    ════════════════════════════════════════ -->
+    <section id="rules">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="section-icon icon-orange">⚠️</div>
+          <div>
+            <div class="section-title">5 Golden Rules for This Roadmap</div>
+            <div class="section-desc">Follow these or you will spin in circles for months</div>
+          </div>
+        </div>
+
+        <div class="rules-grid">
+
+          <div class="rule-card">
+            <div class="rule-num">01</div>
+            <div class="rule-title">Rule of One</div>
+            <p class="rule-desc">Master ONE topic before moving to the next. Do not learn Linux and Web Hacking on the same day.</p>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-num">02</div>
+            <div class="rule-title">The 70/30 Rule</div>
+            <p class="rule-desc">Spend 30% of your time watching/reading, and 70% actually <em>typing commands and hacking in labs</em>.</p>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-num">03</div>
+            <div class="rule-title">Note-Taking is Mandatory</div>
+            <p class="rule-desc">Use Notion or Obsidian. Write every command you learn. You <em>will</em> forget. Your notes = your personal hacking manual.</p>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-num">04</div>
+            <div class="rule-title">The Struggle Timer</div>
+            <p class="rule-desc">When stuck on a lab, set a 30-minute timer. You are NOT allowed to Google the exact answer until the timer goes off.</p>
+          </div>
+
+          <div class="rule-card">
+            <div class="rule-num">05</div>
+            <div class="rule-title">Stay Legal — Always</div>
+            <p class="rule-desc">NEVER point any hacking tool at a website/network you do NOT own or have explicit permission to test.</p>
+          </div>
+
+        </div>
+
+        <!-- Legal Banner -->
+        <div class="legal-banner" style="margin-top:28px;">
+          <div class="legal-icon">🚨</div>
+          <div>
+            <div class="legal-title">Only Hack on Authorized Platforms</div>
+            <p class="legal-text">
+              <strong>NEVER</strong> use Nmap, Burp Suite, or any hacking tool on a website or network you do not own
+              or do not have explicit written permission to test. Unauthorized hacking is a <strong>criminal offence</strong>
+              in every country. Always stay within the boundaries of these safe, legal environments:
+            </p>
+            <div class="legal-platforms">
+              <span class="legal-platform">✅ TryHackMe</span>
+              <span class="legal-platform">✅ HackTheBox</span>
+              <span class="legal-platform">✅ PortSwigger Web Academy</span>
+              <span class="legal-platform">✅ PicoCTF</span>
+              <span class="legal-platform">✅ Authorized Bug Bounty Programs</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ════════════════════════════════════════
+       FOOTER
+  ════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-logo">&gt;_ CyberRoadmap</div>
+    <p class="footer-sub">Built for BTech CSE Students · Stay Curious · Stay Legal · Stay Consistent</p>
+  </footer>
+
+</body>
+</html>
